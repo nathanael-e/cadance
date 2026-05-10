@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Full-stack application with two independent sub-projects:
 
 - **`/` (root)** — Spring Boot 4.0.6 backend (Java 21). Entry point: `src/main/java/com/natene/cadance/CadanceApplication.java`. Group: `com.natene`.
-- **`/web`** — React 19 + TypeScript frontend scaffolded with Vite 8, using `@vitejs/plugin-react`.
+- **`/web`** — React 19 + TypeScript frontend scaffolded with Vite 8, using `@vitejs/plugin-react`. CSS reset is included in `src/index.css`.
 
 ## Backend commands (repo root)
 
