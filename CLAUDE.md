@@ -2,28 +2,35 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project
+## Architecture
 
-`cadance` — a Spring Boot 4.0.6 application (Java 21), generated via Spring Initializr. The project is at skeleton stage: only the entry point and a context-loads smoke test exist.
+Full-stack application with two independent sub-projects:
 
-- Group: `com.natene`
-- Main class: `src/main/java/com/natene/cadance/CadanceApplication.java`
+- **`/` (root)** — Spring Boot 4.0.6 backend (Java 21). Entry point: `src/main/java/com/natene/cadance/CadanceApplication.java`. Group: `com.natene`.
+- **`/web`** — React 19 + TypeScript frontend scaffolded with Vite 8, using `@vitejs/plugin-react`.
 
-## Commands
+## Backend commands (repo root)
 
 ```bash
-# Build (skip tests)
-./mvnw package -DskipTests
+./mvnw package -DskipTests               # build JAR
+./mvnw spring-boot:run                   # run dev server
+./mvnw test                              # run all tests
+./mvnw test -Dtest=ClassName             # run single test class
+./mvnw test -Dtest=ClassName#method      # run single test method
+```
 
-# Run
-./mvnw spring-boot:run
+## Frontend commands (always via Docker, run from repo root)
 
-# Run all tests
-./mvnw test
+```bash
+# Dev server with HMR
+docker run --rm -it -p 5173:5173 -v "$(pwd)/web":/app -w /app node:24.15.0 npm run dev
 
-# Run a single test class
-./mvnw test -Dtest=CadanceApplicationTests
+# Production build
+docker run --rm -v "$(pwd)/web":/app -w /app node:24.15.0 npm run build
 
-# Run a single test method
-./mvnw test -Dtest=CadanceApplicationTests#contextLoads
+# Lint
+docker run --rm -v "$(pwd)/web":/app -w /app node:24.15.0 npm run lint
+
+# Preview production build
+docker run --rm -it -p 4173:4173 -v "$(pwd)/web":/app -w /app node:24.15.0 npm run preview
 ```
