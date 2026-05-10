@@ -1,5 +1,6 @@
 HELP.md
 .env
+web/dist
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
