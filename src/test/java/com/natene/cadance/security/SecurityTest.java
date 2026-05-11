@@ -1,11 +1,12 @@
 package com.natene.cadance.security;
 
-import com.natene.cadance.activity.SummaryActivity;
+import com.natene.cadance.TestDatabaseConfig;
 import com.natene.cadance.strava.StravaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(TestDatabaseConfig.class)
 class SecurityTest {
 
     @Autowired
@@ -44,9 +46,7 @@ class SecurityTest {
 
     @Test
     void authenticatedRequest_returnsOk() throws Exception {
-        when(stravaService.fetchActivities(any())).thenReturn(List.of(
-                new SummaryActivity(1L, "Morning Run", "Run", 5000f, 1800, "2026-05-10T08:00:00Z")
-        ));
+        when(stravaService.fetchActivities(any())).thenReturn(List.of());
 
         mockMvc.perform(get("/api/activities").with(oauth2Login()))
                 .andExpect(status().isOk());
