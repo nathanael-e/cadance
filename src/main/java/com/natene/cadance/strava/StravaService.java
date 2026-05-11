@@ -1,6 +1,5 @@
 package com.natene.cadance.strava;
 
-import com.natene.cadance.activity.SummaryActivity;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -25,14 +24,14 @@ public class StravaService {
         this.restClient = stravaRestClient;
     }
 
-    public List<SummaryActivity> fetchActivities(final Authentication auth) {
+    public List<StravaActivity> fetchActivities(final Authentication auth) {
         String token = resolveToken(auth);
         long after = Instant.now().minus(365, ChronoUnit.DAYS).getEpochSecond();
 
-        List<SummaryActivity> all = new ArrayList<>();
+        List<StravaActivity> all = new ArrayList<>();
         int page = 1;
         while (true) {
-            List<SummaryActivity> batch = fetchPage(token, after, page);
+            List<StravaActivity> batch = fetchPage(token, after, page);
             if (batch.isEmpty()) {
                 break;
             }
@@ -42,8 +41,8 @@ public class StravaService {
         return all;
     }
 
-    private List<SummaryActivity> fetchPage(final String token, final long after, final int page) {
-        List<SummaryActivity> body = restClient.get()
+    private List<StravaActivity> fetchPage(final String token, final long after, final int page) {
+        List<StravaActivity> body = restClient.get()
                 .uri("/athlete/activities?after={after}&per_page=200&page={page}", after, page)
                 .header("Authorization", "Bearer " + token)
                 .retrieve()

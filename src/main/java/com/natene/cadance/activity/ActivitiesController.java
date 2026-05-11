@@ -1,6 +1,5 @@
 package com.natene.cadance.activity;
 
-import com.natene.cadance.strava.StravaService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,14 +11,14 @@ import java.util.List;
 @RequestMapping("/api")
 class ActivitiesController {
 
-    private final StravaService stravaService;
+    private final ActivityService activityService;
 
-    ActivitiesController(final StravaService stravaService) {
-        this.stravaService = stravaService;
+    ActivitiesController(final ActivityService activityService) {
+        this.activityService = activityService;
     }
 
     @GetMapping("/activities")
-    List<SummaryActivity> getActivities(final Authentication auth) {
-        return stravaService.fetchActivities(auth);
+    List<ActivityEntity> getActivities(final Authentication auth) {
+        return activityService.syncActivities(auth);
     }
 }

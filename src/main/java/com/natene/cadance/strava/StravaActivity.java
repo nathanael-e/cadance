@@ -1,12 +1,12 @@
-package com.natene.cadance.activity;
+package com.natene.cadance.strava;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.natene.cadance.strava.StravaAthlete;
-import com.natene.cadance.strava.StravaMap;
+import lombok.Builder;
 
 import java.util.List;
 
-public record SummaryActivity(
+@Builder
+public record StravaActivity(
         long id,
         String name,
         String sportType,

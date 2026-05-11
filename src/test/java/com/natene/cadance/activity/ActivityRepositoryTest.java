@@ -33,7 +33,7 @@ class ActivityRepositoryTest {
 
     @Test
     void savedActivity_canBeRetrievedById() {
-        Activity activity = Activity.builder()
+        ActivityEntity activity = ActivityEntity.builder()
                 .id(18455462292L)
                 .athleteId(12345678L)
                 .name("Afternoon Run")
@@ -74,7 +74,7 @@ class ActivityRepositoryTest {
 
         repository.save(activity);
 
-        Optional<Activity> saved = repository.findById(18455462292L);
+        Optional<ActivityEntity> saved = repository.findById(18455462292L);
         assertThat(saved).isPresent();
         assertThat(saved.get().getName()).isEqualTo("Afternoon Run");
         assertThat(saved.get().getSportType()).isEqualTo("Run");
