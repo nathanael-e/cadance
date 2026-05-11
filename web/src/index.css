@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+:root {
+  --color-background: black;
+  --color-text: white;
+  --color-accent: #db9644;
+  --font-primary: 'DM Sans', sans-serif;
+}
+
 /* 1. Use a more-intuitive box-sizing model */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -16,6 +25,9 @@
 }
 
 body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-primary);
   /* 4. Increase line-height */
   line-height: 1.5;
   /* 5. Improve text rendering */
