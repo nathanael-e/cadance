@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.InputStream;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -17,11 +16,6 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.natene.cadance.strava.StravaService;
-
-import tools.jackson.core.type.TypeReference;
-import tools.jackson.databind.ObjectMapper;
-
 @WebMvcTest(
         value = ActivitiesController.class,
         excludeAutoConfiguration = {OAuth2ClientAutoConfiguration.class, OAuth2ClientWebSecurityAutoConfiguration.class}
@@ -31,16 +25,15 @@ class ActivitiesControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @MockitoBean
-    private StravaService stravaService;
+    private ActivityService activityService;
 
     @Test
     void getActivities_returnsAllActivities() throws Exception {
-        List<SummaryActivity> activities = loadActivities();
-        when(stravaService.fetchActivities(any())).thenReturn(activities);
+        when(activityService.syncActivities(any())).thenReturn(List.of(
+                ActivityEntity.builder().id(18455462292L).name("Afternoon Run").sportType("Run").build(),
+                ActivityEntity.builder().id(18455462293L).name("Morning Ride").sportType("Ride").build()
+        ));
 
         mockMvc.perform(get("/api/activities"))
                 .andExpect(status().isOk())
@@ -49,11 +42,5 @@ class ActivitiesControllerTest {
                 .andExpect(jsonPath("$[0].sport_type").value("Run"))
                 .andExpect(jsonPath("$[1].name").value("Morning Ride"))
                 .andExpect(jsonPath("$[1].sport_type").value("Ride"));
-    }
-
-    private List<SummaryActivity> loadActivities() throws Exception {
-        try (InputStream is = getClass().getResourceAsStream("/strava_activities.json")) {
-            return objectMapper.readValue(is, new TypeReference<>() { });
-        }
     }
 }

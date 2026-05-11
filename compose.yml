@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: cadance
+      POSTGRES_USER: cadance
+      POSTGRES_PASSWORD: cadance
+    ports:
+      - "5433:5432"
