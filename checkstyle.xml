@@ -15,6 +15,7 @@
         <module name="RightCurly"/>
         <module name="EmptyBlock"/>
         <module name="WhitespaceAround"/>
+        <module name="FinalParameters"/>
         <module name="Indentation">
             <property name="basicOffset" value="4"/>
             <property name="caseIndent" value="4"/>
